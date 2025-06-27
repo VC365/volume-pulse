@@ -29,8 +29,6 @@ chmod a+x install.sh
 ./install.sh install
 ```
 
-This installs the binary to `/usr/bin/volume-pulse` and sets up the config file at `~/.config/volume-pulse/config.conf`.
-
 To uninstall:
 
 ```bash
@@ -39,13 +37,9 @@ To uninstall:
 
 ## Usage
 
-Once installed, just run:
-
 ```bash
 volume-pulse &
 ```
-
-It will start in the system tray.
 
 ## Configuration
 
