@@ -25,14 +25,8 @@ Volume Pulse is a lightweight volume control utility for Linux systems. It runs 
 ### Using the installer script
 
 ```bash
-chmod a+x install.sh
-./install.sh install
-```
-
-To uninstall:
-
-```bash
-./install.sh uninstall
+cd volume-pulse
+makepkg -i
 ```
 
 ## Usage
