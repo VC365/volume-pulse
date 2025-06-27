@@ -10,6 +10,7 @@ read -r -d '' config << 'EOF'
 volume_increase = 5
 max_volume = 200%
 
+# "false", "mixer", "mute"
 middle_click_action = mixer
 
 mixer = pavucontrol
