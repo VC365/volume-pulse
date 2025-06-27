@@ -1,6 +1,6 @@
 # Volume Pulse
 
-Volume Pulse is a lightweight volume control utility for Linux systems. It runs in the system tray and allows you to control your audio output using mouse scroll, tray icon clicks, or your system’s volume keys.
+Volume Pulse is a lightweight volume control utility for Linux systems. It runs in the system tray and allows you to control your audio output using mouse scroll, tray icon clicks, or your system’s volume keys. Volume Pulse is written in C and uses the GTK2 toolkit for its graphical interface.
 
 ## Features
 
@@ -17,14 +17,15 @@ Volume Pulse is a lightweight volume control utility for Linux systems. It runs 
 ### Requirements
 
 * A GTK-based desktop environment
-* `pactl` (PulseAudio utility)
-* `pavucontrol` (optional, for GUI mixer)
-* `libnotify` (if using notifications)
+* `pulseaudio`
+* `pavucontrol` (for mixer)
+* `libnotify`
+* `libgtk-2-dev`
 
 ### Using the installer script
 
 ```bash
-chmod +x install.sh
+chmod a+x install.sh
 ./install.sh install
 ```
 
@@ -74,10 +75,6 @@ volume-pulse -m   # Toggle mute
 volume-pulse -s   # Show volume level
 volume-pulse -v   # Version info
 ```
-
-## Technical Info
-
-Volume Pulse is written in C and uses the GTK2 toolkit for its graphical interface.
 
 ## License
 
