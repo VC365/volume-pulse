@@ -33,6 +33,7 @@ install() {
 	if [ -f "$DIR_APP/volume-pulse" ]; then
 	    sudo rm "$DIR_APP/volume-pulse"
 	fi
+ 	chmod a+x volume-pulse
 	sudo cp volume-pulse "$DIR_APP"
 	echo -e "${GREEN} volume-pulse Installed!${NC}"
 }
