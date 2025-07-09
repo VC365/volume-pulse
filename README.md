@@ -16,13 +16,12 @@ Volume Pulse is a lightweight volume control utility for Linux systems. It runs 
 
 ### Requirements
 
-* A GTK-based desktop environment
 * `pulseaudio`
 * `pavucontrol` (for mixer)
 * `libnotify`
 * `libgtk-2-dev`
 
-### Using the installer script
+### Using AUR
 
 ```bash
 cd volume-pulse
