@@ -2,7 +2,7 @@
 pkgname=volume-pulse
 pkgver=0.1.0
 pkgrel=2
-pkgdesc="A lightweight volume control utility for Linux"
+pkgdesc="A lightweight volume control applet utility for Linux"
 arch=('x86_64')
 url="https://github.com/VC365/volume-pulse"
 license=('Proprietary')
