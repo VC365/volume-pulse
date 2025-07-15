@@ -56,10 +56,14 @@ middle_click_action = mixer
 mixer = pavucontrol
 
 use_notifications = false
-use_shortcuts = false
+
+use_shortcuts = true
+
+use_arguments = true
+
 ```
 
-## CLI Options
+## CLI Options (fixed!)
 
 You can also control volume from terminal:
 
