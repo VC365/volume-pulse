@@ -10,14 +10,15 @@ read -r -d '' config << 'EOF'
 volume_increase = 5
 max_volume = 200%
 
-# "false", "mixer", "mute"
 middle_click_action = mixer
 
 mixer = pavucontrol
 
 use_notifications = false
 
-use_shortcuts = false
+use_shortcuts = true
+
+use_arguments = true
 
 EOF
 install() {
@@ -33,7 +34,7 @@ install() {
 	if [ -f "$DIR_APP/volume-pulse" ]; then
 	    sudo rm "$DIR_APP/volume-pulse"
 	fi
- 	chmod a+x volume-pulse
+	chmod a+x volume-pulse
 	sudo cp volume-pulse "$DIR_APP"
 	echo -e "${GREEN} volume-pulse Installed!${NC}"
 }
