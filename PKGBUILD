@@ -25,7 +25,10 @@ mixer = pavucontrol
 
 use_notifications = false
 
-use_shortcuts = false
+use_shortcuts = true
+
+use_arguments = true
+
 EOF
 
 package() {
