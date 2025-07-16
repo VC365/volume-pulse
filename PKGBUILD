@@ -1,6 +1,6 @@
 # Contributor: VC365
 pkgname=volume-pulse
-pkgver=0.1.0
+pkgver=0.2.1
 pkgrel=2
 pkgdesc="A lightweight volume control applet utility for Linux"
 arch=('x86_64')
