@@ -21,6 +21,20 @@ Volume Pulse is a lightweight volume control utility for Linux systems. It runs 
 * `libnotify`
 * `libgtk-2-dev`
 
+### Using AUR
+
+```bash
+paru -S volume-pulse
+# or
+yay -S volume-pulse
+```
+#### Manual Installation
+```bash
+git clone https://aur.archlinux.org/volume-pulse.git
+cd volume-pulse
+makepkg -si
+```
+
 ### Using the installer script
 
 ```bash
