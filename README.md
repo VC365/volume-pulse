@@ -89,10 +89,6 @@ volume-pulse -s   # Show volume level
 volume-pulse -v   # Version info
 ```
 
-## License
-
-Proprietary. All rights reserved.
-
 ## Author
 
 [VC365](https://github.com/VC365)
