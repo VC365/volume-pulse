@@ -234,7 +234,7 @@ void send_update_signal()
     int pid;
     fscanf(f, "%d", &pid);
     fclose(f);
-    kill(pid, SIGUSR1); // فقط همین
+    kill(pid, SIGUSR1);
 }
 
 void* signal_root(void* data)
