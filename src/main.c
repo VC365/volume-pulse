@@ -225,7 +225,7 @@ void volume_down()
 //end------------------------------
 
 //Signal
-void handle_update_signal();
+void handle_update_signal(int signum);
 
 void send_update_signal()
 {
