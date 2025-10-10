@@ -1,0 +1,9 @@
+<toolSet name="External Tools">
+  <tool name="shards" description="for crystal" showInMainMenu="false" showInEditor="false" showInProject="false" showInSearchPopup="false" disabled="false" useConsole="true" showConsoleOnStdOut="true" showConsoleOnStdErr="true" synchronizeAfterRun="true">
+    <exec>
+      <option name="COMMAND" value="shards" />
+      <option name="PARAMETERS" value="build $ProjectName$ -Dpreview_mt -Dexecution_context" />
+      <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+    </exec>
+  </tool>
+</toolSet>

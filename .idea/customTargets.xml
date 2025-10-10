@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CLionExternalBuildManager">
+    <target id="e91cd87d-4408-4e07-ae23-7fc37ea28d9f" name="shards" defaultType="TOOL">
+      <configuration id="7f46c4fb-10d6-42a9-9f7f-4433de617258" name="shards">
+        <build type="TOOL">
+          <tool actionId="Tool_External Tools_shards" />
+        </build>
+      </configuration>
+    </target>
+  </component>
+</project>
