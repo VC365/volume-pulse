@@ -1,54 +1,51 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
-DIR_APP="/usr/bin"
-DIR_CONFIG="$HOME/.config/volume-pulse"
 
-read -r -d '' config << 'EOF'
-volume_increase = 5
-max_volume = 200%
+SCRIPT_DIR="$(cd -- "$(dirname "$0")" && pwd)"
+name="volume-pulse"
 
-middle_click_action = mixer
-
-mixer = pavucontrol
-
-use_notifications = false
-
-use_shortcuts = true
-
-use_arguments = true
-
-EOF
-install() {
-    echo -e "${YELLOW}installing volume-pulse...${NC}"
-    if [ ! -f volume-pulse ]; then
-        echo -e "${RED} volume-pulse not found in current directory!${NC}"
-        exit 1
-    fi
-    mkdir -p "$DIR_CONFIG"
-	if [ ! -f "$DIR_CONFIG/config.conf" ]; then
-      echo "$config" > "$DIR_CONFIG/config.conf"
-	fi
-	if [ -f "$DIR_APP/volume-pulse" ]; then
-	    sudo rm "$DIR_APP/volume-pulse"
-	fi
-	chmod a+x volume-pulse
-	sudo cp volume-pulse "$DIR_APP"
-	echo -e "${GREEN} volume-pulse Installed!${NC}"
+install_c()
+{
+  echo -e "${YELLOW} $name Installing...${NC}"
+  if [ ! -f "$SCRIPT_DIR/bin/c/$name" ]; then
+    make c || { echo "${RED}Build failed${NC}"; exit 1; }
+  fi
+  sudo install -m 755 "$SCRIPT_DIR/bin/c/$name" "/usr/bin/"
+  echo -e "${GREEN} $name Installed!${NC}"
 }
-
+install_crystal()
+{
+  echo -e "${YELLOW} $name Installing...${NC}"
+  if [ ! -f "$SCRIPT_DIR/bin/$name" ]; then
+    make crystal || { echo "${RED}Build failed${NC}"; exit 1; }
+  fi
+  sudo install -m 755 "$SCRIPT_DIR/bin/$name" "/usr/bin/"
+  echo -e "${GREEN} $name Installed!${NC}"
+}
 uninstall() {
-    sudo rm -f "$DIR_APP/volume-pulse" &> /dev/null
-    echo -e "${GREEN} volume-pulse Deleted!${NC}"
+    sudo rm -f "/usr/bin/$name" &> /dev/null
+    echo -e "${RED} $name Deleted!${NC}"
 }
-
-if [ "$1" == "install" ]; then
-    install
-elif [ "$1" == "uninstall" ]; then
-    uninstall
-else
-    echo -e "${RED} Options $0 {install|uninstall}${NC}"
-    exit 1
-fi
+main()
+{
+  if [ "$1" == "install" ]; then
+      if [ "$2" == "crystal" ]; then
+        install_crystal
+      elif [ "$2" == "c" ]; then
+        install_c
+      else
+        echo -e "${RED}Usage:${NC} $0 install {c|crystal}"
+        exit 1
+      fi
+  elif [ "$1" == "uninstall" ]; then
+      uninstall
+  else
+      echo -e "${RED} Options $0 { install | uninstall }${NC}"
+      exit 1
+  fi
+}
+main "$@"
