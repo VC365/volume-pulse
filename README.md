@@ -1,6 +1,6 @@
 # Volume Pulse
 
-Volume Pulse is a lightweight volume control utility for Linux systems. It runs in the system tray and allows you to control your audio output using mouse scroll, tray icon clicks, or your system’s volume keys. Volume Pulse is written in C and uses the GTK2 toolkit for its graphical interface.
+Volume Pulse is a lightweight volume control utility for Linux systems. It runs in the system tray and allows you to control your audio output using mouse scroll, tray icon clicks, or your system’s volume keys. Volume Pulse is written in (C & Crystal) and uses the GTK2 toolkit for its graphical interface.
 
 ## Features
 
@@ -39,7 +39,9 @@ makepkg -si
 
 ```bash
 chmod a+x install.sh
-./installer.sh install
+./installer.sh install crystal
+# OR
+./installer.sh install c 
 ```
 
 To uninstall:
@@ -71,15 +73,16 @@ mixer = pavucontrol
 
 use_notifications = false
 
+# Enable keyboard shortcuts (X11 only)
 use_shortcuts = true
 
 use_arguments = true
 
 ```
 
-## CLI Options (fixed!)
+## CLI Options
 
-You can also control volume from terminal:
+You can also control the volume from the terminal (best option for custom shortcuts):
 
 ```bash
 volume-pulse -u   # Volume up
@@ -89,6 +92,14 @@ volume-pulse -s   # Show volume level
 volume-pulse -v   # Version info
 ```
 
-## Author
+## Contributing
 
-[VC365](https://github.com/VC365)
+1. Fork it (<https://github.com/VC365/volume-pulse/fork>)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
+
+## Contributors
+
+- [VC365](https://github.com/VC365) - creator and maintainer
