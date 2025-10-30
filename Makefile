@@ -3,7 +3,7 @@ all:
 	@echo "crystal build (NEW)"
 	@echo "c build"
 crystal:
-	@shards build $(NAME) -Dpreview_mt -Dexecution_context
+	@shards build $(NAME) -Dpreview_mt -Dexecution_context --release
 c:
 	mkdir -p "bin/c"
 	@gcc -O2 -s -DNDEBUG -w src/main.c -o bin/c/$(NAME)  \
