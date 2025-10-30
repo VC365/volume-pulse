@@ -552,8 +552,8 @@ void show_about_panel(GtkMenuItem* item, gpointer data)
     gtk_about_dialog_set_program_name(GTK_ABOUT_DIALOG(about), "Volume Pulse");
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about), version);
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about), "      Volume control for your system tray.      ");
-    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about), "https://github.com/VC365/volume-pulse");
-    gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(about), "Github");
+    gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about), "https://vc-365.ir/volume-pulse");
+    gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(about), "Website");
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about), "Proprietary. All rights reserved.");
 
     GdkPixbuf* logo = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "audio-volume-high", 48, 0, NULL);

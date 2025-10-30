@@ -225,8 +225,8 @@ module GUI
             gtk2_about_pname((about), "Volume Pulse")
             gtk2_about_version(about, ConfigVariables::Version)
             gtk2_about_comments(about, "      Volume control for your system tray.      ")
-            gtk2_about_website(about, "https://github.com/VC365/volume-pulse")
-            gtk2_about_weblabel(about, "Github")
+            gtk2_about_website(about, "https://vc-365.ir/volume-pulse")
+            gtk2_about_weblabel(about, "Website")
             gtk2_about_copyright(about, "Proprietary. All rights reserved.")
             gtk2_about_logo(about, logo) if logo
 
