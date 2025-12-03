@@ -29,11 +29,10 @@ lib VC365
     fun notify_close=notify_notification_close(notification : NotifyNotification,gerror : Void*)
     fun notify_update=notify_notification_update(notification : NotifyNotification,summray : UInt8*,msg : UInt8*,icon : UInt8*)
 
-    # GObject
-    fun g_signal_connect =g_signal_connect_data(instance : GObject*, detailed_signal : UInt8*,
-                                c_handler : GCallback*,user : Void*) : UInt64
-    fun g_idle_add(func : GSourceFunc, data : Void*) : UInt32
-    fun g_thread_new(name : UInt8*, func : (-> Pointer(Void)), data : Void*) : Void*
+    # GLib
+    fun g_signal_connect =g_signal_connect_data(instance : GObject, detailed_signal : UInt8*,
+                                c_handler : GFunc,user : Void*) : UInt64
+    fun g_idle_add(func : GFunc, data : Void*) : UInt32
 
     # Gdk
     enum GdkEventType : Int32
