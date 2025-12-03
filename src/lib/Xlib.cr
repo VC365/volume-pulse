@@ -19,8 +19,6 @@ lib VC365
     alias Window = UInt64
     alias KeySym = UInt64
     alias GtkMenuPositionFunc = (Void*, Int32*, Int32*, Void*) -> Void
-    alias GSourceFunc = Pointer(Void) -> Int32
-    alias GThreadFunc =  Pointer(Void) -> Pointer(Void)
 
     # Notify
     fun notify=notify_init(app_name : UInt8*)
