@@ -116,13 +116,6 @@ lib VC365
                                 func : GtkMenuPositionFunc, data : Void*, button : UInt32, activate_time : UInt32)
     ## X11
     # XEvent
-    struct AnyEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-    end
     struct KeyEvent
           type : Int32
           serial : UInt64
@@ -138,248 +131,30 @@ lib VC365
           keycode : UInt32
           same_screen : Bool
     end
-    struct ButtonEvent
+    union XEvent
           type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          root : Window
-          subwindow : Window
-          time : Void*
-          x, y : Int32
-          x_root, y_root : Int32
-          state : UInt32
-          button : UInt32
-          same_screen : Bool
-    end
-    struct MotionEvent
-          type : Int32 # of event
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          root : Window
-          subwindow : Window
-          time : Void*
-          x, y : Int32
-          x_root, y_root : Int32
-          state : UInt32
-          is_hint : UInt8
-          same_screen : Bool
-    end
-    struct CrossingEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          root : Window
-          subwindow : Window
-          time : Void*
-          x, y : Int32
-          x_root, y_root : Int32
-          mode : Int32
-          detail : Int32
-          same_screen : Bool
-          focus : Bool
-          state : UInt32
-    end
-    struct FocusChangeEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-        	mode : Int32
-          detail : Int32
-    end
-    struct ExposeEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          x, y : Int32
-          width, height : Int32
-          count : Int32
-    end
-    struct GraphicsExposeEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          drawable : Void*
-          x, y : Int32
-          width, height : Int32
-          count : Int32
-          major_code : Int32
-          minor_code : Int32
-    end
-    struct NoExposeEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          drawable : Void*
-          major_code : Int32
-          minor_code : Int32
-    end
-    struct VisibilityEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          state : Int32
-    end
-    struct CreateWindowEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          parent : Window
-          window : Window
-          x, y : Int32
-          width, height : Int32
-          border_width : Int32
-          override_redirect : Bool
-    end
-    struct DestroyWindowEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          event : Window
-          window : Window
-    end
-    struct UnmapEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          event : Window
-          window : Window
-          from_configure : Bool
-    end
-    struct MapEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          event : Window
-          window : Window
-          override_redirect : Bool
-    end
-    struct MapRequestEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          parent : Window
-          window : Window
-    end
-    struct ReparentEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          event : Window
-          window : Window
-          parent : Window
-          x, y : Int32
-          override_redirect : Bool
-    end
-    struct ConfigureEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          event : Window
-          window : Window
-          x, y : Int32
-          width, height : Int32
-          border_width : Int32
-          above : Window
-          override_redirect : Bool
-    end
-    struct GravityEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          event : Window
-          window : Window
-          x, y : Int32
-    end
-    struct ResizeRequestEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          width, height : Int32
-    end
-    struct ConfigureRequestEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          parent : Window
-          window : Window
-          x, y : Int32
-          width, height : Int32
-          border_width : Int32
-          above : Window
-          detail : Int32
-          value_mask : UInt64
-    end
-    struct CirculateEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          parent : Window
-          window : Window
-          place : Int32
-    end
-    struct CirculateRequestEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          parent : Window
-          window : Window
-          place : Int32
-    end
-    struct PropertyEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          atom : Int32
-          time : Void*
-          state : Int32
-    end
-    struct SelectionClearEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          selection : Int32
-          time : Void*
-    end
-    struct SelectionRequestEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          owner : Window
-          requestor : Window
-          selection : Void*
-          target : Void*
+          any : Void*
+          key : KeyEvent
+          button : Void*
+          motion : Void*
+          crossing : Void*
+          focus : Void*
+          expose : Void*
+          graphicsexpose : Void*
+          noexpose : Void*
+          visibility : Void*
+          createwindow : Void*
+          destroywindow : Void*
+          unmap : Void*
+          map : Void*
+          maprequest : Void*
+          reparent : Void*
+          configure : Void*
+          gravity : Void*
+          resizerequest : Void*
+          configurerequest : Void*
+          circulate : Void*
+          circulaterequest : Void*
           property : Void*
           time : Void*
     end
@@ -501,7 +276,7 @@ lib VC365
           generic : GenericEvent
           cookie : GenericEventCookie
           pad : Int64[24];
-        end
+    end
     # end
 
     fun xInitThreads=XInitThreads()
