@@ -4,7 +4,7 @@
 @[Link("X11")]
 @[Link("notify")]
 @[Link("fontconfig")]
-lib LRoot
+lib VC365
     # Types
     type NotifyNotification = Void*
     type GPointer = Void*
