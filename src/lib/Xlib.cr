@@ -101,11 +101,11 @@ lib VC365
     fun gtk2_about_website=gtk_about_dialog_set_website(dialog : GtkWidget, website : UInt8*)
     fun gtk2_about_weblabel=gtk_about_dialog_set_website_label(dialog : GtkWidget, website_label : UInt8*)
     fun gtk2_about_copyright=gtk_about_dialog_set_copyright(dialog : GtkWidget, copyright : UInt8*)
-    fun gtk2_about_logo=gtk_about_dialog_set_logo(dialog : GtkWidget, logo : GdkPixbuf*)
+    fun gtk2_about_logo=gtk_about_dialog_set_logo(dialog : GtkWidget, logo : GdkPixbuf)
     fun gtk2_dialog_run=gtk_dialog_run(dialog : GtkWidget)
     fun gtk2_widget_destroy=gtk_widget_destroy(dialog : GtkWidget)
     fun gtk2_load_icon=gtk_icon_theme_load_icon( theme : Void*, icon_name : UInt8*,
-                                    size : Int32, flags : Int32, error : Void**) : GdkPixbuf*
+                                    size : Int32, flags : Int32, error : Void**) : GdkPixbuf
     fun gtk2_icon_theme_get_default=gtk_icon_theme_get_default() : Void*
     fun gtk2_quit=gtk_main_quit()
     fun gtk2_menu=gtk_menu_new() : GtkWidget
