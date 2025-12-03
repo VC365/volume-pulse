@@ -197,15 +197,15 @@ end
 
 
 module Xlib
-  class_property notifiX : LRoot::NotifyNotification* =notify_new("Volume","Welcome","audio-volume-medium")
-  class_property update_scheduled =false
+    class_property! notifiX : VC365::NotifyNotification
+    class_property update_scheduled =false
 
-  {% for m in LRoot.methods %}
-    def self.{{m.name}}(*args)
-      LRoot.{{m.name}}(*args)
+    {% for m in VC365.methods %}
+        def self.{{m.name}}(*args)
+            VC365.{{m.name}}(*args)
+        end
+    {% end %}
+    def self.call(&)
+        with self yield
     end
-  {% end %}
-  def self.call(&)
-   with self yield
-  end
 end
