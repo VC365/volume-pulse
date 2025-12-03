@@ -156,125 +156,16 @@ lib VC365
           circulate : Void*
           circulaterequest : Void*
           property : Void*
-          time : Void*
-    end
-    struct SelectionEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          requestor : Window
+          selectionclear : Void*
+          selectionrequest : Void*
           selection : Void*
-          target : Void*
-          property : Void*
-          time : Void*
-    end
-    struct ColormapEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
           colormap : Void*
-          c_new : Bool
-          state : Int32
-    end
-    union ClientMessageEvent_Data
-          b : UInt8[20]
-          s : Int16[10]
-          l : Int64[5]
-          ul : UInt64[5]
-    end
-    struct ClientMessageEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          message_type : Void*
-          format : Int32
-          data : ClientMessageEvent_Data
-    end
-    struct MappingEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          request : Int32
-          first_keycode : Int32
-          count : Int32
-    end
-    struct ErrorEvent
-          type : Int32
-          display : Display
-          resourceid : UInt64
-          serial : UInt64
-          error_code : UInt8
-          request_code : UInt8
-          minor_code : UInt8
-    end
-    struct KeymapEvent
-          type : Int32
-          serial : UInt64
-          send_event : Bool
-          display : Display
-          window : Window
-          key_vector : UInt8[32];
-    end
-    struct GenericEvent
-          type       : Int32
-          serial     : UInt64
-          send_event : Bool
-          display    : Display
-          extension  : Int32
-          evtype     : Int32
-    end
-    struct GenericEventCookie
-          type       : Int32
-          serial     : UInt64
-          send_event : Bool
-          display    : Display
-          extension  : Int32
-          evtype     : Int32
-          cookie     : UInt32
-          data       : Void*
-    end
-        union XEvent
-          type : Int32
-          any : AnyEvent
-          key : KeyEvent
-          button : ButtonEvent
-          motion : MotionEvent
-          crossing : CrossingEvent
-          focus : FocusChangeEvent
-          expose : ExposeEvent
-          graphicsexpose : GraphicsExposeEvent
-          noexpose : NoExposeEvent
-          visibility : VisibilityEvent
-          createwindow : CreateWindowEvent
-          destroywindow : DestroyWindowEvent
-          unmap : UnmapEvent
-          map : MapEvent
-          maprequest : MapRequestEvent
-          reparent : ReparentEvent
-          configure : ConfigureEvent
-          gravity : GravityEvent
-          resizerequest : ResizeRequestEvent
-          configurerequest : ConfigureRequestEvent
-          circulate : CirculateEvent
-          circulaterequest : CirculateRequestEvent
-          property : PropertyEvent
-          selectionclear : SelectionClearEvent
-          selectionrequest : SelectionRequestEvent
-          selection : SelectionEvent
-          colormap : ColormapEvent
-          client : ClientMessageEvent
-          mapping : MappingEvent
-          error : ErrorEvent
-          keymap : KeymapEvent
-          generic : GenericEvent
-          cookie : GenericEventCookie
+          client : Void*
+          mapping : Void*
+          error : Void*
+          keymap : Void*
+          generic : Void*
+          cookie : Void*
           pad : Int64[24];
     end
     # end
