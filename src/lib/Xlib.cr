@@ -25,11 +25,11 @@ lib VC365
     # Notify
     fun notify=notify_init(app_name : UInt8*)
     fun notify_uninit()
-    fun notify_new=notify_notification_new(summray : UInt8*,msg : UInt8*,icon : UInt8*) : NotifyNotification*
-    fun notify_timeout=notify_notification_set_timeout(summray : NotifyNotification*,timeout : Int32)
-    fun notify_show=notify_notification_show(notification : NotifyNotification*,gerror : Void*)
-    fun notify_close=notify_notification_close(notification : NotifyNotification*,gerror : Void*)
-    fun notify_update=notify_notification_update(notification : NotifyNotification*,summray : UInt8*,msg : UInt8*,icon : UInt8*)
+    fun notify_new=notify_notification_new(summray : UInt8*,msg : UInt8*,icon : UInt8*) : NotifyNotification
+    fun notify_timeout=notify_notification_set_timeout(summray : NotifyNotification,timeout : Int32)
+    fun notify_show=notify_notification_show(notification : NotifyNotification,gerror : Void*)
+    fun notify_close=notify_notification_close(notification : NotifyNotification,gerror : Void*)
+    fun notify_update=notify_notification_update(notification : NotifyNotification,summray : UInt8*,msg : UInt8*,icon : UInt8*)
 
     # GObject
     fun g_signal_connect =g_signal_connect_data(instance : GObject*, detailed_signal : UInt8*,
