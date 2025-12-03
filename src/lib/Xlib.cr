@@ -14,7 +14,7 @@ lib VC365
     type GtkMenuShell = Void*
     type GdkPixbuf   = Void*
     type GObject   = Void*
-    type GCallback   = Void*
+    type GFunc   = Void*
     type Display = Void*
     alias Window = UInt64
     alias KeySym = UInt64
