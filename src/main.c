@@ -209,6 +209,21 @@ void volume_down()
 //Signal
 void handle_update_signal(int signum);
 
+void prevent_double_run()
+{
+    FILE* f = fopen("/tmp/volume-pulse.pid", "r");
+    if (!f) return;
+    pid_t pid;
+    fscanf(f, "%d", &pid);
+    if (kill(pid, 0) == 0)
+    {
+        printf("volume-pulse is already running!\n");
+        fclose(f);
+        exit(0);
+    }
+    fclose(f);
+}
+
 void send_update_signal()
 {
     FILE* f = fopen("/tmp/volume-pid", "r");
@@ -482,7 +497,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
         {
             // Left Click
             run_pactl("set-sink-mute", "toggle");
-            g_idle_add((GSourceFunc)update_volume_safe, NULL);
+            g_idle_add(update_volume_safe, NULL);
         }
         else if (bevent->button == 3)
         {
@@ -498,7 +513,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
             else if (strcmp(middle_click_action, "mute") == 0)
             {
                 run_pactl("set-sink-mute", "toggle");
-                g_idle_add((GSourceFunc)update_volume_safe, NULL);
+                g_idle_add(update_volume_safe, NULL);
             }
             // free
         }
@@ -571,6 +586,7 @@ int main(int argc, char* argv[])
 {
     read_config();
     parse_arguments(argc, argv);
+    prevent_double_run();
     if (use_notifications) { notify_init("Volume Notifier"); }
     XInitThreads();
     FcInit();
