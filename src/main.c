@@ -343,37 +343,23 @@ void show_notification(const char* message)
 //Volume Status
 void volume_icon_status()
 {
-    int volume_value = 0;
-    sscanf(current_volume, "%d", &volume_value);
-
     if (get_mute())
     {
-        char tooltip[64];
-        snprintf(tooltip, sizeof(tooltip), "Volume: Muted");
-        gtk_status_icon_set_tooltip_text(tray_icon, tooltip);
+        gtk_status_icon_set_tooltip_text(tray_icon, "Volume: Muted");
         gtk_status_icon_set_from_icon_name(tray_icon, "audio-volume-muted");
     }
     else
     {
-        char tooltip[64];
-        snprintf(tooltip, sizeof(tooltip), "Volume: %s", current_volume);
-        gtk_status_icon_set_tooltip_text(tray_icon, tooltip);
-        if (volume_value == 0)
-        {
+        const int vol = atoi(current_volume);
+        gtk_status_icon_set_tooltip_text(tray_icon, g_strdup_printf("Volume: %s", current_volume));
+        if (vol == 0)
             gtk_status_icon_set_from_icon_name(tray_icon, "audio-volume-muted");
-        }
-        else if (volume_value <= 30)
-        {
+        else if (vol <= 30)
             gtk_status_icon_set_from_icon_name(tray_icon, "audio-volume-low");
-        }
-        else if (volume_value <= 70)
-        {
+        else if (vol <= 70)
             gtk_status_icon_set_from_icon_name(tray_icon, "audio-volume-medium");
-        }
         else
-        {
             gtk_status_icon_set_from_icon_name(tray_icon, "audio-volume-high");
-        }
     }
 }
 
