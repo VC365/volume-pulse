@@ -226,17 +226,20 @@ void prevent_double_run()
 
 void send_update_signal()
 {
-    FILE* f = fopen("/tmp/volume-pid", "r");
+    FILE* f = fopen("/tmp/volume-pulse.pid", "r");
     if (!f) return;
-    int pid;
+    pid_t pid;
     fscanf(f, "%d", &pid);
+    if (kill(pid, 0) == 0)
+        kill(pid, SIGUSR1);
+    else
+        printf("WARNING:volume-pulse is not running!\n");
     fclose(f);
-    kill(pid, SIGUSR1);
 }
 
 void* signal_root(void* data)
 {
-    FILE* f = fopen("/tmp/volume-pid", "w");
+    FILE* f = fopen("/tmp/volume-pulse.pid", "w");
     if (f)
     {
         fprintf(f, "%d\n", getpid());
@@ -246,7 +249,6 @@ void* signal_root(void* data)
     signal(SIGUSR1, handle_update_signal);
 
     while (1) pause();
-    return NULL;
 }
 
 //end
