@@ -384,7 +384,7 @@ gboolean update_volume_safe(gpointer data)
 void handle_update_signal(int signum)
 {
     update_scheduled = TRUE;
-    g_idle_add((GSourceFunc)update_volume_safe, NULL);
+    g_idle_add(update_volume_safe, NULL);
 }
 
 //end------------------------------
@@ -424,7 +424,7 @@ void listen_volume_keys()
                 if (!update_scheduled)
                 {
                     update_scheduled = TRUE;
-                    g_idle_add((GSourceFunc)update_volume_safe, NULL);
+                    g_idle_add(update_volume_safe, NULL);
                 }
             }
 
@@ -434,14 +434,14 @@ void listen_volume_keys()
                 if (!update_scheduled)
                 {
                     update_scheduled = TRUE;
-                    g_idle_add((GSourceFunc)update_volume_safe, NULL);
+                    g_idle_add(update_volume_safe, NULL);
                 }
             }
 
             else if (keysym == XF86XK_AudioMute)
             {
                 run_pactl("set-sink-mute", "toggle");
-                g_idle_add((GSourceFunc)update_volume_safe, NULL);
+                g_idle_add(update_volume_safe, NULL);
             }
         }
     }
@@ -460,7 +460,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
             if (!update_scheduled)
             {
                 update_scheduled = TRUE;
-                g_idle_add((GSourceFunc)update_volume_safe, NULL);
+                g_idle_add(update_volume_safe, NULL);
             }
         }
         else if (sevent->direction == GDK_SCROLL_DOWN)
@@ -469,7 +469,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
             if (!update_scheduled)
             {
                 update_scheduled = TRUE;
-                g_idle_add((GSourceFunc)update_volume_safe, NULL);
+                g_idle_add(update_volume_safe, NULL);
             }
         }
     }
