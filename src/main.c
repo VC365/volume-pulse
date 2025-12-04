@@ -31,16 +31,6 @@ NotifyNotification* current_notification = NULL;
 //#For Icon_Tray
 GtkStatusIcon* tray_icon;
 
-//#For Mouse Event
-typedef struct
-{
-    gchar* event_type;
-    gdouble x;
-    gdouble y;
-    guint button;
-    GdkScrollDirection scroll_direction;
-} MouseEvent;
-
 ////Config File
 void strtrim(char* str)
 {
