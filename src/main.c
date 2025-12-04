@@ -547,17 +547,17 @@ static void on_popup_menu(GtkStatusIcon* status_icon, const guint button, const 
 {
     GtkWidget* menu = gtk_menu_new();
 
-    GtkWidget* item1 = gtk_menu_item_new_with_label("Open Mixer");
-    g_signal_connect(item1, "activate", G_CALLBACK(run_mixer), NULL);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item1);
+    GtkWidget* mixerX = gtk_menu_item_new_with_label("Open Mixer");
+    g_signal_connect(mixerX, "activate", G_CALLBACK(run_mixer), NULL);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), mixerX);
 
-    GtkWidget* item_about = gtk_menu_item_new_with_label("About");
-    g_signal_connect(item_about, "activate", G_CALLBACK(show_about_panel), NULL);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item_about);
+    GtkWidget* about = gtk_menu_item_new_with_label("About");
+    g_signal_connect(about, "activate", G_CALLBACK(show_about_panel), NULL);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), about);
 
-    GtkWidget* item4 = gtk_menu_item_new_with_label("Quit");
-    g_signal_connect(item4, "activate", G_CALLBACK(run_quit), NULL);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item4);
+    GtkWidget* quit = gtk_menu_item_new_with_label("Quit");
+    g_signal_connect(quit, "activate", G_CALLBACK(run_quit), NULL);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), quit);
 
     gtk_widget_show_all(menu);
     gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, button, activate_time);
