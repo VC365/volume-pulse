@@ -399,7 +399,7 @@ void listen_volume_keys()
         return;
     }
 
-    Window root = DefaultRootWindow(dpy);
+    const Window root = DefaultRootWindow(dpy);
 
     XGrabKey(dpy, XKeysymToKeycode(dpy, XF86XK_AudioLowerVolume), AnyModifier, root, True, GrabModeAsync,
              GrabModeAsync);
