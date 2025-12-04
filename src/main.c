@@ -192,10 +192,6 @@ void volume_up()
     {
         new_volume = max_vol;
     }
-
-    // char cmd[MAX_LEN + 64];
-    // snprintf(cmd, sizeof(cmd), "pactl set-sink-volume @DEFAULT_SINK@ %d%%", new_volume);
-    // system(cmd);
     char vol_str[16];
     snprintf(vol_str, sizeof(vol_str), "%d%%", new_volume);
     run_pactl("set-sink-volume", vol_str);
@@ -203,9 +199,6 @@ void volume_up()
 
 void volume_down()
 {
-    // char cmd[MAX_LEN + 64];
-    // snprintf(cmd, sizeof(cmd), "pactl set-sink-volume @DEFAULT_SINK@ -%s%%", volume_adjustment);
-    // system(cmd);
     char vol_str[16];
     snprintf(vol_str, sizeof(vol_str), "-%s%%", volume_adjustment);
     run_pactl("set-sink-volume", vol_str);
@@ -410,7 +403,6 @@ void listen_volume_keys()
 
     Window root = DefaultRootWindow(dpy);
 
-    // Grab volume keys globally
     XGrabKey(dpy, XKeysymToKeycode(dpy, XF86XK_AudioLowerVolume), AnyModifier, root, True, GrabModeAsync,
              GrabModeAsync);
     XGrabKey(dpy, XKeysymToKeycode(dpy, XF86XK_AudioRaiseVolume), AnyModifier, root, True, GrabModeAsync,
@@ -430,10 +422,7 @@ void listen_volume_keys()
 
             if (keysym == XF86XK_AudioRaiseVolume)
             {
-                // system("pactl set-sink-volume @DEFAULT_SINK@ +5%");
                 volume_up();
-                // update_current_volume();
-                // g_idle_add((GSourceFunc)update_volume_safe, NULL);
                 if (!update_scheduled)
                 {
                     update_scheduled = TRUE;
@@ -443,10 +432,7 @@ void listen_volume_keys()
 
             else if (keysym == XF86XK_AudioLowerVolume)
             {
-                // system("pactl set-sink-volume @DEFAULT_SINK@ -5%");
                 volume_down();
-                // update_current_volume();
-                // g_idle_add((GSourceFunc)update_volume_safe, NULL);
                 if (!update_scheduled)
                 {
                     update_scheduled = TRUE;
@@ -456,14 +442,11 @@ void listen_volume_keys()
 
             else if (keysym == XF86XK_AudioMute)
             {
-                // system("pactl set-sink-mute @DEFAULT_SINK@ toggle");
-                //update_current_volume();
                 run_pactl("set-sink-mute", "toggle");
                 g_idle_add((GSourceFunc)update_volume_safe, NULL);
             }
         }
     }
-    // XCloseDisplay(dpy);
 }
 
 //end------------------------------
@@ -475,9 +458,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
         GdkEventScroll* sevent = (GdkEventScroll*)event;
         if (sevent->direction == GDK_SCROLL_UP)
         {
-            // system("pactl set-sink-volume @DEFAULT_SINK@ -5%");
             volume_down();
-            //update_current_volume();
             if (!update_scheduled)
             {
                 update_scheduled = TRUE;
@@ -486,9 +467,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
         }
         else if (sevent->direction == GDK_SCROLL_DOWN)
         {
-            // system("pactl set-sink-volume @DEFAULT_SINK@ +5%");
             volume_up();
-            //update_current_volume();
             if (!update_scheduled)
             {
                 update_scheduled = TRUE;
@@ -502,9 +481,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
         if (bevent->button == 1)
         {
             // Left Click
-            // system("pactl set-sink-mute @DEFAULT_SINK@ toggle");
             run_pactl("set-sink-mute", "toggle");
-            //update_current_volume();
             g_idle_add((GSourceFunc)update_volume_safe, NULL);
         }
         else if (bevent->button == 3)
@@ -520,9 +497,7 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
             }
             else if (strcmp(middle_click_action, "mute") == 0)
             {
-                // system("pactl set-sink-mute @DEFAULT_SINK@ toggle");
                 run_pactl("set-sink-mute", "toggle");
-                //update_current_volume();
                 g_idle_add((GSourceFunc)update_volume_safe, NULL);
             }
             // free
