@@ -218,12 +218,14 @@ module Event
     end
     def signal_update
         return unless File.exists?(pid)
-        Process.signal(Signal::USR1,File.read(pid).to_i)
+        pidX=File.read(pid).to_i
+        Process.exists?(pidX) ? Process.signal(Signal::USR1,pidX) :
+            puts "Warning: volume-pulse is not running!".colorize.yellow
     end
     def prevent_double_run
         return unless File.exists?(pid)
         return unless Process.exists?(File.read(pid).to_i)
-        puts "volume-pulse already runned!".colorize.yellow
+        puts "volume-pulse is already running!".colorize.yellow
         exit 1
     end
 end
