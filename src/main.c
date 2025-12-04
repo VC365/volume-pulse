@@ -308,38 +308,33 @@ void show_notification(const char* message)
         return;
 
     if (current_notification != NULL)
-    {
         notify_notification_close(current_notification, NULL);
-    }
-
-    int volume_value = 0;
-    sscanf(current_volume, "%d", &volume_value);
+    else
+        current_notification = notify_notification_new("Volume", message, "audio-volume-medium");
 
     if (get_mute())
-    {
-        current_notification = notify_notification_new("Volume", message, "audio-volume-muted");
-    }
+        notify_notification_update(current_notification, "Volume", message, "audio-volume-muted");
     else
     {
-        if (volume_value == 0)
+        const int vol = atoi(current_volume);
+        if (vol == 0)
         {
-            current_notification = notify_notification_new("Volume", message, "audio-volume-muted");
+            notify_notification_update(current_notification, "Volume", message, "audio-volume-muted");
         }
-        else if (volume_value <= 30)
+        else if (vol <= 30)
         {
-            current_notification = notify_notification_new("Volume", message, "audio-volume-low");
+            notify_notification_update(current_notification, "Volume", message, "audio-volume-low");
         }
-        else if (volume_value <= 70)
+        else if (vol <= 70)
         {
-            current_notification = notify_notification_new("Volume", message, "audio-volume-medium");
+            notify_notification_update(current_notification, "Volume", message, "audio-volume-medium");
         }
         else
         {
-            current_notification = notify_notification_new("Volume", message, "audio-volume-high");
+            notify_notification_update(current_notification, "Volume", message, "audio-volume-high");
         }
     }
     notify_notification_set_timeout(current_notification, 1000);
-
     notify_notification_show(current_notification, NULL);
 }
 
