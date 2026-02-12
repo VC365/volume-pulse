@@ -86,11 +86,14 @@ use_arguments = true
 You can also control the volume from the terminal (best option for custom shortcuts):
 
 ```bash
-volume-pulse -u   # Volume up
-volume-pulse -d   # Volume down
-volume-pulse -m   # Toggle mute
-volume-pulse -s   # Show volume level
-volume-pulse -v   # Version info
+Usage: volume-pulse [-h --help] [-m] [-i] [-d] [-l] [-v]
+    -m, --mute                       Toggle mute
+    -i, --increase                   Increase volume
+    -d, --decrease                   Decrease volume
+    -l, --level                      Show volume level
+    -v, --version                    Version
+    -h, --help                       Show help message
+		 config path: ~/.config/volume-pulse/config.conf
 ```
 
 ## Contributing
