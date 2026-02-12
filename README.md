@@ -19,7 +19,7 @@ Volume Pulse is a lightweight volume control utility for Linux systems. It runs 
 * `pulseaudio`
 * `pavucontrol` (for mixer)
 * `libnotify`
-* `libgtk-2-dev`
+* `libgtk-2-dev | gtk2`
 * `libfm-gtk2` (for lxde)
 
 ### Using AUR
