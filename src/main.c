@@ -231,6 +231,7 @@ void send_update_signal()
     else
         printf("WARNING:volume-pulse is not running!\n");
     fclose(f);
+    exit(0);
 }
 
 void* signal_root(void* data)
@@ -253,7 +254,7 @@ void* signal_root(void* data)
 void parse_arguments(int argc, char* argv[])
 {
     int opt;
-    while ((opt = getopt(argc, argv, "hmudsv")) != -1)
+    while ((opt = getopt(argc, argv, "hmidlv")) != -1)
     {
         switch (opt)
         {
@@ -261,36 +262,33 @@ void parse_arguments(int argc, char* argv[])
             printf("Usage:\n");
             printf("  -h          Show this help message\n");
             printf("  -m          Toggle mute\n");
-            printf("  -u          Increase volume\n");
+            printf("  -i          Increase volume\n");
             printf("  -d          Decrease volume\n");
-            printf("  -s          Show volume level\n");
+            printf("  -l          Show volume level\n");
             printf("  -v          Output version number and exit\n");
-            printf("config path:  .config/volume-pulse/config.conf\n");
+            printf("\t\t config path:  ~/.config/volume-pulse/config.conf\n");
             exit(0);
         case 'm':
             run_pactl("set-sink-mute", "toggle");
             if (get_mute()) printf("Muted : YES");
             else printf("Muted : NO");
             send_update_signal();
-            exit(0);
-        case 'u':
+        case 'i':
             volume_up();
             send_update_signal();
-            exit(0);
         case 'd':
             volume_down();
             send_update_signal();
-            exit(0);
-        case 's':
+        case 'l':
             printf("%s", get_volume());
-            exit(0);
+            send_update_signal();
         case 'v':
             printf("Volume Pulse %s", version);
-            exit(0);
+            send_update_signal();
         default:
             fprintf(stderr, "Usage: %s [-h] [-m toggle mute] [-u volume up] [-d volume down] [-s show volume level]\n",
                     argv[0]);
-            exit(0);
+            exit(1);
         }
     }
 }
@@ -555,8 +553,8 @@ int main(int argc, char* argv[])
     read_config();
     parse_arguments(argc, argv);
     prevent_double_run();
-    if (use_notifications) { notify_init("Volume Notifier"); }
-    XInitThreads();
+    if (use_notifications)
+        notify_init("Volume Notifier");
     FcInit();
     gtk_init(&argc, &argv);
 
