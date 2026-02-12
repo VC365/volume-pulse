@@ -19,7 +19,7 @@ char mixer[MAX_LEN] = "pavucontrol";
 int use_notifications = 0;
 int use_shortcuts = 1;
 int use_arguments = 1;
-const gchar* version = "0.3.1";
+const gchar* version = "0.3.2";
 
 //#For Volume Status
 char current_volume[MAX_VOLUME_LEN];

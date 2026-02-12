@@ -12,7 +12,7 @@ enum Middle_click
 end
 
 module ConfigVariables
-    Version="0.3.1"
+    Version="0.3.2"
     class_property volume_increase = 5
     class_property max_volume = 120
     class_property middle_click_action = Middle_click::False
