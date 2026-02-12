@@ -35,9 +35,7 @@ void strtrim(char* str)
 {
     char* comment_start = strchr(str, '#');
     if (comment_start != NULL)
-    {
         *comment_start = '\0';
-    }
 
     while (isspace((unsigned char)*str)) str++;
 
@@ -164,7 +162,6 @@ const gchar* get_volume()
         }
         fclose(fp);
     }
-
     return "What??";
 }
 
@@ -189,9 +186,8 @@ void volume_up()
     int new_volume = current_vol + volume_increase;
 
     if (new_volume >= max_vol)
-    {
         new_volume = max_vol;
-    }
+
     char vol_str[16];
     snprintf(vol_str, sizeof(vol_str), "%d%%", new_volume);
     run_pactl("set-sink-volume", vol_str);
@@ -318,21 +314,17 @@ void show_notification(const char* message)
     {
         const int vol = atoi(current_volume);
         if (vol == 0)
-        {
-            notify_notification_update(current_notification, "Volume", message, "audio-volume-muted");
-        }
+            notify_notification_update(current_notification, "Volume", message,
+                "audio-volume-muted");
         else if (vol <= 30)
-        {
-            notify_notification_update(current_notification, "Volume", message, "audio-volume-low");
-        }
+            notify_notification_update(current_notification, "Volume", message,
+                "audio-volume-low");
         else if (vol <= 70)
-        {
-            notify_notification_update(current_notification, "Volume", message, "audio-volume-medium");
-        }
+            notify_notification_update(current_notification, "Volume", message,
+                "audio-volume-medium");
         else
-        {
-            notify_notification_update(current_notification, "Volume", message, "audio-volume-high");
-        }
+            notify_notification_update(current_notification, "Volume", message,
+                "audio-volume-high");
     }
     notify_notification_set_timeout(current_notification, 1000);
     notify_notification_show(current_notification, NULL);
@@ -389,7 +381,7 @@ void handle_update_signal(int signum)
 
 //end------------------------------
 
-//Volume Shortcut Keys
+// Volume Shortcut Keys
 void listen_volume_keys()
 {
     Display* dpy = XOpenDisplay(NULL);
@@ -402,10 +394,11 @@ void listen_volume_keys()
     const Window root = DefaultRootWindow(dpy);
 
     XGrabKey(dpy, XKeysymToKeycode(dpy, XF86XK_AudioLowerVolume), AnyModifier, root, True, GrabModeAsync,
-             GrabModeAsync);
+        GrabModeAsync);
     XGrabKey(dpy, XKeysymToKeycode(dpy, XF86XK_AudioRaiseVolume), AnyModifier, root, True, GrabModeAsync,
-             GrabModeAsync);
-    XGrabKey(dpy, XKeysymToKeycode(dpy, XF86XK_AudioMute), AnyModifier, root, True, GrabModeAsync, GrabModeAsync);
+        GrabModeAsync);
+    XGrabKey(dpy, XKeysymToKeycode(dpy, XF86XK_AudioMute), AnyModifier, root, True, GrabModeAsync,
+        GrabModeAsync);
 
     XSelectInput(dpy, root, KeyPressMask);
 
@@ -476,23 +469,15 @@ void handle_mouse_event(const gchar* type, GdkEvent* event)
     else if (event->type == GDK_BUTTON_PRESS)
     {
         GdkEventButton* bevent = (GdkEventButton*)event;
-        if (bevent->button == 1)
+        if (bevent->button == 1) // Left Click
         {
-            // Left Click
             run_pactl("set-sink-mute", "toggle");
             g_idle_add(update_volume_safe, NULL);
         }
-        else if (bevent->button == 3)
-        {
-            // Right Click
-        }
-        else if (bevent->button == 2)
+        else if (bevent->button == 2) // Midden Click
         {
             if (strcmp(middle_click_action, "mixer") == 0)
-            {
-                //Midden Click
                 run_mixer_app();
-            }
             else if (strcmp(middle_click_action, "mute") == 0)
             {
                 run_pactl("set-sink-mute", "toggle");
