@@ -501,10 +501,8 @@ void show_about_panel(GtkMenuItem* item, gpointer data)
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about), "https://vc-365.ir/volume-pulse");
     gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(about), "Website");
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about), "Proprietary. All rights reserved.");
-
-    GdkPixbuf* logo = gtk_icon_theme_load_icon(gtk_icon_theme_get_default(), "audio-volume-high", 48, 0, NULL);
-    if (logo)
-        gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
+    gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(about), "audio-volume-high");
+    gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about),(const char *[]) { "VC365 <https://vc-365.ir>",NULL });
 
     gtk_dialog_run(GTK_DIALOG(about));
     gtk_widget_destroy(about);
