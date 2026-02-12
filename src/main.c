@@ -382,6 +382,7 @@ void handle_update_signal(int signum)
 // Volume Shortcut Keys
 void listen_volume_keys()
 {
+    XInitThreads();
     Display* dpy = XOpenDisplay(NULL);
     if (!dpy)
     {
