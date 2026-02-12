@@ -24,9 +24,9 @@ module ConfigVariables
     def self.update_config(key : String, value : String)
         case key
         when "volume_increase"
-            self.volume_increase = value.to_i
+            self.volume_increase = value.to_i? || 5
         when "max_volume"
-            self.max_volume = value.strip("%").to_i
+            self.max_volume = value.strip("%").to_i? || 120
         when "middle_click_action"
             self.middle_click_action = Middle_click.parse(value) rescue Middle_click.puts(value)
         when "mixer"
@@ -38,7 +38,7 @@ module ConfigVariables
         when "use_arguments"
             self.use_arguments = value == "true"
         else
-            puts "Warning: unknown config key '#{key}'".colorize.yellow
+            puts "#{"Warning".colorize.bold}: unknown config key '#{key}'".colorize.yellow
         end
     end
 end
@@ -56,7 +56,7 @@ module Volume
         vol("get-sink-volume"," | grep -oP '\\d+%' | head -n 1").strip("%").to_i
     end
     def get_mute
-        vol("get-sink-mute").includes?("yes") ?true : false
+        vol("get-sink-mute").includes?("yes") ? true : false
     end
     def volume_up
         vol("set-sink-volume","#{[get_volume + ConfigVariables.volume_increase, ConfigVariables.max_volume].min}%")
@@ -72,7 +72,7 @@ module Volume
         return unless ConfigVariables.use_notifications
         Xlib.call do
             if(Volume.get_mute)
-            notify_update(notifiX,"Volume"," #{volume}%","audio-volume-muted")
+                notify_update(notifiX,"Volume"," #{volume}%","audio-volume-muted")
             else
                 case volume
                 when 0
@@ -119,7 +119,7 @@ module Volume
             dood=->{
                 update
                 update_scheduled=false
-                0
+                false
             }.pointer.as(VC365::GFunc)
             if loopX
                 unless update_scheduled
@@ -147,15 +147,16 @@ module Event
             xInitThreads()
             dpy=xOpenDisplay(nil)
             unless dpy
-            STDERR.puts("Cannot open display");return;end
+                STDERR.puts("Cannot open display");return
+            end
             root=xRootWindow(dpy,0)
 
             xGrabKey(dpy,xKeysymToKeycode(dpy,X11::XF86XK_AudioLowerVolume),
-                    X11::AnyModifier,root,1,X11::GrabModeAsync,X11::GrabModeAsync)
+                X11::AnyModifier,root,1,X11::GrabModeAsync,X11::GrabModeAsync)
             xGrabKey(dpy,xKeysymToKeycode(dpy,X11::XF86XK_AudioRaiseVolume),
-                    X11::AnyModifier,root,1,X11::GrabModeAsync,X11::GrabModeAsync)
+                X11::AnyModifier,root,1,X11::GrabModeAsync,X11::GrabModeAsync)
             xGrabKey(dpy,xKeysymToKeycode(dpy,X11::XF86XK_AudioMute),
-                    X11::AnyModifier,root,1,X11::GrabModeAsync,X11::GrabModeAsync)
+                X11::AnyModifier,root,1,X11::GrabModeAsync,X11::GrabModeAsync)
 
             xSelectInput(dpy, root, X11::KeyPressMask)
             ev = uninitialized VC365::XEvent
@@ -182,7 +183,7 @@ module Event
         ->(icon : VC365::GtkStatusIcon, event : Pointer(Void), user_data : VC365::GPointer) {
             e = event.as(VC365::GdkEventScroll*).value
             case e.direction
-                when VC365::GdkScrollDirection::UP
+            when VC365::GdkScrollDirection::UP
                 Volume.volume_down
                 Volume.update_safe(true)
             when VC365::GdkScrollDirection::DOWN
@@ -190,7 +191,7 @@ module Event
                 Volume.update_safe(true)
             end
             1
-        }.pointer.as(VC365::GFunc)
+        }
     end
     def button
         ->(icon : VC365::GtkStatusIcon, event : Pointer(Void), user_data : VC365::GPointer) {
@@ -207,8 +208,8 @@ module Event
                     Volume.volume_mute
                 end
             end
-            0
-        }.pointer.as(VC365::GFunc)
+            false
+        }
     end
     private def pid;return "/tmp/volume-pulse.pid";end
     def signal_root
@@ -221,9 +222,10 @@ module Event
         pidX=File.read(pid).to_i
         Process.exists?(pidX) ? Process.signal(Signal::USR1,pidX) :
             puts "Warning: volume-pulse is not running!".colorize.yellow
+        exit
     end
     def prevent_double_run
-        return unless File.exists?(pid)
+        return unless File.exists?(pid) && !File.read(pid).to_i?.nil?
         return unless Process.exists?(File.read(pid).to_i)
         puts "volume-pulse is already running!".colorize.yellow
         exit 1
@@ -235,14 +237,14 @@ module GUI
     private def self.panel(item : VC365::GtkMenuItem, data : VC365::GPointer)
         Xlib.call do
             about = gtk2_about()
-            logo = gtk2_load_icon(gtk2_icon_theme_get_default(), "audio-volume-high", 48, 0, nil)
             gtk2_about_pname((about), "Volume Pulse")
             gtk2_about_version(about, ConfigVariables::Version)
-            gtk2_about_comments(about, "      Volume control for your system tray.      ")
+            gtk2_about_comments(about, "Volume control for your system tray.".center(46))
             gtk2_about_website(about, "https://vc-365.ir/volume-pulse")
             gtk2_about_weblabel(about, "Website")
             gtk2_about_copyright(about, "Proprietary. All rights reserved.")
-            gtk2_about_logo(about, logo) if logo
+            gtk2_about_logo_icon(about, "audio-volume-high")
+            gtk2_about_authors(about, ["VC365  <https://vc-365.ir>".to_unsafe].to_unsafe)
 
             gtk2_dialog_run(about)
             gtk2_widget_destroy(about)
@@ -250,19 +252,15 @@ module GUI
     end
     private def self.menuX(icon : VC365::GtkStatusIcon,button : UInt32,activate_time : UInt32, user_data : VC365::GPointer)
         Xlib.call do
-            menu = gtk2_menu()
+            menu = gtk2_menu_new()
             mixer = gtk2_menu_item_label("Open Mixer")
-            g_signal_connect(mixer.as(VC365::GObject),"activate",
-                ->(item : VC365::GtkMenuItem, data : VC365::GPointer){Volume.mixer}.pointer.as(VC365::GFunc),nil)
-            about = gtk2_menu_item_label("About")
-            g_signal_connect(about.as(VC365::GObject),"activate",
-                ->(item : VC365::GtkMenuItem, data : VC365::GPointer){panel(item,data)}.pointer.as(VC365::GFunc),nil)
-            quit = gtk2_menu_item_label("Quit")
-            g_signal_connect(quit.as(VC365::GObject),"activate",
-                ->{VC365.gtk2_quit()}.pointer.as(VC365::GFunc),nil)
-
+                g_signal(mixer,"activate",->(item : VC365::GtkMenuItem, data : VC365::GPointer){Volume.mixer})
             gtk2_menu_shell_append(menu, mixer)
+            about = gtk2_menu_item_label("About")
+                g_signal(about,"activate",->(item : VC365::GtkMenuItem, data : VC365::GPointer){panel(item,data)})
             gtk2_menu_shell_append(menu, about)
+            quit = gtk2_menu_item_label("Quit")
+                g_signal(quit,"activate",->Xlib.gtk2_quit)
             gtk2_menu_shell_append(menu, quit)
 
             gtk2_widget_show(menu)
@@ -272,7 +270,7 @@ module GUI
     def self.menu
         ->(icon : VC365::GtkStatusIcon,button : UInt32,activate_time : UInt32, user_data : VC365::GPointer){
             menuX(icon, button, activate_time, user_data)
-        }.pointer.as(VC365::GFunc)
+        }
     end
 end
 
@@ -310,32 +308,34 @@ end
 
 def parse_arguments
     OptionParser.parse do |arg|
-        arg.banner="Usage: volume-pulse [-h --help] [-m] [-u] [-d] [-s] [-v]"
-        arg.on("-m","Toggle mute") do
+        arg.banner="Usage: volume-pulse [-h --help] [-m] [-i] [-d] [-l] [-v]"
+        arg.on("-m","--mute","Toggle mute") do
             Volume.volume_mute
             Event.signal_update
-            exit 0
         end
-        arg.on("-u","Increase volume") do
+        arg.on("-i","--increase","Increase volume") do
             Volume.volume_up
             Event.signal_update
-            exit 0
         end
-        arg.on("-d","Decrease volume") do
+        arg.on("-d","--decrease","Decrease volume") do
             Volume.volume_down
             Event.signal_update
-            exit 0
         end
-        arg.on("-s","Show volume level") do
-            puts "#{Volume.get_volume}%";exit 0;end
-        arg.on("-v","Version") do
-            puts "Volume Pulse #{ConfigVariables::Version}";exit 0;end
+        arg.on("-l","--level","Show volume level") do
+            puts "#{Volume.get_volume}%"
+            Event.signal_update
+        end
+        arg.on("-v","--version","Version") do
+            puts "Volume Pulse #{ConfigVariables::Version}"
+            Event.signal_update
+        end
         arg.on("-h","--help","Show help message") do
-            puts arg;exit 0;end
-        arg.separator("\t\t config path:  .config/volume-pulse/config.conf".colorize.yellow)
+            puts arg;exit
+        end
+        arg.separator("\t\t config path: ~/.config/volume-pulse/config.conf".colorize.dim)
 
         arg.invalid_option do |val|
-            STDERR.puts "ERROR: #{val} is not a valid option."
+            STDERR.puts "ERROR: #{val} is not a valid option.".colorize.light_red
             STDERR.puts arg
             exit(1)
         end
@@ -355,9 +355,9 @@ Xlib.call do
     gtk2_init(nil,nil)
     GUI.icon_tray=gtk2_status_new()
     Volume.update
-    g_signal_connect(GUI.icon_tray.as(VC365::GObject),"scroll-event",Event.scroll,nil)
-    g_signal_connect(GUI.icon_tray.as(VC365::GObject),"button-press-event",Event.button,nil)
-    g_signal_connect(GUI.icon_tray.as(VC365::GObject),"popup-menu",GUI.menu,nil)
+    g_signal(GUI.icon_tray,"scroll-event",Event.scroll)
+    g_signal(GUI.icon_tray,"button-press-event",Event.button)
+    g_signal(GUI.icon_tray,"popup-menu",GUI.menu)
 
     unless !ConfigVariables.use_arguments && !ConfigVariables.use_shortcuts
         Fiber::ExecutionContext::Isolated.new("GTK") do

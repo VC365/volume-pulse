@@ -12,7 +12,6 @@ lib VC365
     type GtkStatusIcon = Void*
     type GtkMenuItem = Void*
     type GtkMenuShell = Void*
-    type GdkPixbuf   = Void*
     type GObject   = Void*
     type GFunc   = Void*
     type Display = Void*
@@ -101,14 +100,12 @@ lib VC365
     fun gtk2_about_website=gtk_about_dialog_set_website(dialog : GtkWidget, website : UInt8*)
     fun gtk2_about_weblabel=gtk_about_dialog_set_website_label(dialog : GtkWidget, website_label : UInt8*)
     fun gtk2_about_copyright=gtk_about_dialog_set_copyright(dialog : GtkWidget, copyright : UInt8*)
-    fun gtk2_about_logo=gtk_about_dialog_set_logo(dialog : GtkWidget, logo : GdkPixbuf)
+    fun gtk2_about_logo_icon=gtk_about_dialog_set_logo_icon_name(dialog : GtkWidget, logo : UInt8*)
+    fun gtk2_about_authors=gtk_about_dialog_set_authors(dialog : GtkWidget, authors : UInt8**)
     fun gtk2_dialog_run=gtk_dialog_run(dialog : GtkWidget)
     fun gtk2_widget_destroy=gtk_widget_destroy(dialog : GtkWidget)
-    fun gtk2_load_icon=gtk_icon_theme_load_icon( theme : Void*, icon_name : UInt8*,
-                                    size : Int32, flags : Int32, error : Void**) : GdkPixbuf
-    fun gtk2_icon_theme_get_default=gtk_icon_theme_get_default() : Void*
     fun gtk2_quit=gtk_main_quit()
-    fun gtk2_menu=gtk_menu_new() : GtkWidget
+    fun gtk2_menu_new=gtk_menu_new() : GtkWidget
     fun gtk2_menu_item_label=gtk_menu_item_new_with_label(txt : UInt8*) : GtkWidget
     fun gtk2_menu_shell_append=gtk_menu_shell_append(menu_shell : GtkWidget, child : GtkWidget)
     fun gtk2_widget_show=gtk_widget_show_all(widget : GtkWidget)
@@ -195,10 +192,13 @@ GrabModeAsync = 1
 KeyPress=2
 end
 
-
 module Xlib
     class_property! notifiX : VC365::NotifyNotification
     class_property update_scheduled =false
+
+    def self.g_signal(ele : _,sig : String, block : Proc)
+        VC365.g_signal_connect(ele.as(VC365::GObject),sig,block.pointer.as(VC365::GFunc),nil)
+    end
 
     {% for m in VC365.methods %}
         def self.{{m.name}}(*args)
