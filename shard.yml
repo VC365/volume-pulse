@@ -1,13 +1,13 @@
 name: volume-pulse
-version: 0.2.9
+version: 0.3.2
 
 authors:
-  - VC365 <xdood.sav@outlook.com>
+  - VC365 <https://vc-365.ir>
 
 targets:
   volume-pulse:
     main: src/volume-pulse.cr
 
-crystal: '>= 1.17.1'
+crystal: '>= 1.19.1'
 
-license: MIT
+license: Proprietary
